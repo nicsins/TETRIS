@@ -35,7 +35,7 @@ function collide(arena, player) {
     }
     return false;
 }
-// a block
+// create arena
 function create_matrix(w, h) {
     const matrix = [];
     while (h--) {
@@ -90,7 +90,7 @@ function create_piece(type)
         ];
     }
 }
-// draws a  block
+// draws a  arena
 function draw_matrix(matrix, offset) {
     matrix.forEach((row, y) => {
         row.forEach((value, x) => {
@@ -142,7 +142,7 @@ function rotate(matrix, dir) {
     }
 }
 
-// handles player movement
+// handles block movement
 function playerMove(offset) {
     player.pos.x += offset;
     if (collide(arena, player)) {
@@ -155,14 +155,14 @@ function playerDrop() {
     if (collide(arena, player)) {
         player.pos.y--;
         merge(arena, player);
-        playerReset();
+        block_Reset();
         arenaSweep();
         updateScore();
     }
     dropCounter = 0;
 }
 // decides what pieces are made
-function playerReset() {
+function block_Reset() {
     const pieces = 'TJLOSZI';
     player.matrix = create_piece(pieces[pieces.length * Math.random() | 0]);
     player.pos.y = 0;
@@ -175,7 +175,7 @@ function playerReset() {
     }
 }
 // change direction
-function playerRotate(dir) {
+function block_Rotate(dir) {
     const pos = player.pos.x;
     let offset = 1;
     rotate(player.matrix, dir);
@@ -220,9 +220,9 @@ document.addEventListener('keydown', event => {
     } else if (event.keyCode === 40) {
         playerDrop();
     } else if (event.keyCode === 81) {//q key rotate left
-        playerRotate(-1);
+        block_Rotate(-1);
     } else if (event.keyCode === 87) {// w key rotate right
-        playerRotate(1);
+        block_Rotate(1);
     }
 });
 
@@ -245,6 +245,6 @@ const player = {
     score: 0,
 };
 
-playerReset();
+block_Reset();
 updateScore();
 update();
